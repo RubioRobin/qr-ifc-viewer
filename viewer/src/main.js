@@ -80,10 +80,11 @@ async function init() {
 
 async function initViewer() {
     const container = document.getElementById('viewer-canvas');
-    viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xf0f2f5) });
+    // Use dark background for better contrast with typical IFC models
+    viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0x202020) });
 
     // Explicitly set WASM path to root (where we copied files)
-    viewer.IFC.setWasmPath('/');
+    viewer.IFC.setWasmPath(window.location.origin + '/');
 
     // Set up axes and grid for better context
     viewer.axes.setAxes();
@@ -105,8 +106,33 @@ async function loadModel(url) {
     currentModel = await viewer.IFC.loadIfcUrl(url);
     if (!currentModel) throw new Error('Model laden mislukt (Geen 3D data ontvangen).');
 
-    // Enable shadows for realism
-    viewer.shadowDropper.renderShadow(currentModel.modelID);
+    // Remove shadows for now to ensure visibility
+    // viewer.shadowDropper.renderShadow(currentModel.modelID);
+
+    // Force camera to look at the model immediately
+    setTimeout(() => {
+        viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
+    }, 100);
+}
+
+document.getElementById('toggle-fullscreen').onclick = () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+};
+
+document.getElementById('close-panel').onclick = () => {
+    infoPanel.classList.remove('visible');
+};
+
+// ... Error handling fix ...
+function showError(msg) {
+    loadingScreen.classList.add('hidden');
+    errorScreen.classList.remove('hidden');
+    // Ensure we don't duplicate diagnostics if they are already in msg
+    errorMessage.textContent = msg;
 }
 
 async function isolateElement(globalId) {

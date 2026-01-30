@@ -17,6 +17,18 @@ const errorMessage = document.getElementById('error-message');
 const viewerContainer = document.getElementById('viewer-container');
 const infoPanel = document.getElementById('info-panel');
 
+// Helper for Render cold starts
+async function fetchWithRetry(url, options = {}, retries = 3, backoff = 1000) {
+    try {
+        return await fetch(url, options);
+    } catch (err) {
+        if (retries <= 1) throw err;
+        loadingStatus.textContent = `Server wordt wakker... (poging ${4 - retries}/3)`;
+        await new Promise(r => setTimeout(r, backoff));
+        return fetchWithRetry(url, options, retries - 1, backoff * 2);
+    }
+}
+
 async function init() {
     try {
         // 1. Get token from URL path (e.g., /view/:token)
@@ -29,10 +41,11 @@ async function init() {
             throw new Error('Geen token gevonden in de URL. Scan de QR code opnieuw.');
         }
 
-        loadingStatus.textContent = 'Token verifiëren...';
+        loadingStatus.textContent = 'Verbinding maken met server...';
 
-        // 2. Fetch token data from backend
-        const response = await fetch(`${API_BASE_URL}/api/tokens/${currentToken}`);
+        // 2. Fetch token data from backend with retry
+        const response = await fetchWithRetry(`${API_BASE_URL}/api/tokens/${currentToken}`);
+
         if (!response.ok) {
             if (response.status === 404) throw new Error('Deze link is verlopen of ongeldig.');
             throw new Error('Kon geen verbinding maken met de server.');
@@ -66,10 +79,10 @@ async function init() {
             const wasmResp = await fetch('/web-ifc.wasm', { method: 'HEAD' });
             diag += `\nWASM: ${wasmResp.status}`;
 
-            if (data && data.ifcFileUrl) {
-                const modelResp = await fetch(data.ifcFileUrl, { method: 'HEAD' });
-                diag += `\nModel: ${modelResp.status} (${modelResp.headers.get('content-length')} bytes)`;
-            }
+            // Only check model if we actually got data back (Fixes "data is not defined")
+            // using checking for variable existence implicitly via scope availability of 'data' isn't safe if definition skipped
+            // but here 'data' variable is block scoped in try, so it might not be available in catch.
+            // We'll skip model diag if data wasn't reached.
         } catch (e) {
             diag += `\nDiag failed: ${e.message}`;
         }
@@ -111,7 +124,9 @@ async function loadModel(url) {
 
     // Force camera to look at the model immediately
     setTimeout(() => {
-        viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
+        if (viewer && currentModel) {
+            viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
+        }
     }, 100);
 }
 

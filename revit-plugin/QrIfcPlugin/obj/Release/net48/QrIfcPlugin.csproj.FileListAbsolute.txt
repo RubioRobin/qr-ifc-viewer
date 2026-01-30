@@ -1,0 +1,11 @@
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.csproj.AssemblyReference.cache
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.csproj.SuggestedBindingRedirects.cache
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.dll.config
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\UI\SettingsWindow.baml
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\UI\SettingsWindow.g.cs
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin_MarkupCompile.cache
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.g.resources
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.AssemblyInfoInputs.cache
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.AssemblyInfo.cs
+C:\Users\Robin\Downloads\IFC antigravity\revit-plugin\QrIfcPlugin\obj\Release\net48\QrIfcPlugin.csproj.CoreCompileInputs.cache

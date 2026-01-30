@@ -1,0 +1,26 @@
+{
+    "name": "qr-ifc-backend",
+    "version": "1.0.0",
+    "description": "Backend API for QR IFC Viewer",
+    "main": "src/server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/server.js",
+        "dev": "node --watch src/server.js"
+    },
+    "keywords": [
+        "ifc",
+        "qr",
+        "revit",
+        "viewer"
+    ],
+    "author": "VH Engineering",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.18.2",
+        "better-sqlite3": "^9.2.2",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "nanoid": "^5.0.4"
+    }
+}

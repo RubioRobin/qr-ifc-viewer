@@ -1,0 +1,26 @@
+{
+    "name": "qr-ifc-viewer",
+    "version": "1.0.0",
+    "description": "Web viewer for IFC models via QR codes",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "keywords": [
+        "ifc",
+        "qr",
+        "viewer",
+        "3d"
+    ],
+    "author": "VH Engineering",
+    "license": "MIT",
+    "dependencies": {
+        "web-ifc-viewer": "^1.0.200",
+        "three": "^0.160.0"
+    },
+    "devDependencies": {
+        "vite": "^5.0.0"
+    }
+}

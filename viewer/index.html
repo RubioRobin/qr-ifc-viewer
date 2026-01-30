@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR IFC Viewer</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <h2>IFC Model wordt geladen...</h2>
+      <p id="loading-status">Initialiseren...</p>
+    </div>
+  </div>
+
+  <!-- Error Screen -->
+  <div id="error-screen" class="hidden">
+    <div class="error-content">
+      <div class="error-icon">⚠️</div>
+      <h2>Er is iets misgegaan</h2>
+      <p id="error-message"></p>
+      <button onclick="location.reload()" class="retry-button">Opnieuw proberen</button>
+    </div>
+  </div>
+
+  <!-- Main Viewer -->
+  <div id="viewer-container" class="hidden">
+    <!-- Header -->
+    <header class="viewer-header">
+      <div class="header-content">
+        <h1>🏗️ QR IFC Viewer</h1>
+        <div class="project-info">
+          <span id="project-name"></span>
+          <span class="separator">•</span>
+          <span id="model-version"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- IFC Viewer Canvas -->
+    <div id="viewer-canvas"></div>
+
+    <!-- Element Info Panel -->
+    <div id="info-panel" class="info-panel">
+      <div class="panel-header">
+        <h3>Element Informatie</h3>
+        <button id="close-panel" class="close-button">✕</button>
+      </div>
+      <div class="panel-content">
+        <div class="info-item">
+          <label>IFC GlobalId:</label>
+          <span id="element-guid"></span>
+        </div>
+        <div class="info-item">
+          <label>Type:</label>
+          <span id="element-type"></span>
+        </div>
+        <div class="info-item">
+          <label>Naam:</label>
+          <span id="element-name"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="reset-camera" class="control-button" title="Reset Camera">
+        🎯
+      </button>
+      <button id="toggle-fullscreen" class="control-button" title="Volledig scherm">
+        ⛶
+      </button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

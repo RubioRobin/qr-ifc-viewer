@@ -60,7 +60,7 @@ async function init() {
         viewerContainer.classList.remove('hidden');
 
     } catch (error) {
-        showError(error.message);
+        showError(`${error.message} (API: ${API_BASE_URL})`);
     }
 }
 

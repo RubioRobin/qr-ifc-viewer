@@ -85,6 +85,8 @@ async function initViewer() {
 
 async function loadModel(url) {
     currentModel = await viewer.IFC.loadIfcUrl(url);
+    if (!currentModel) throw new Error('Model laden mislukt (Geen 3D data ontvangen).');
+
     // Enable shadows for realism
     viewer.shadowDropper.renderShadow(currentModel.modelID);
 }

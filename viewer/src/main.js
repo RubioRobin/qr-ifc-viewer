@@ -69,7 +69,7 @@ async function initViewer() {
     viewer = new IfcViewerAPI({ container, backgroundColor: new Color(0xf0f2f5) });
 
     // Explicitly set WASM path to root (where we copied files)
-    viewer.IFC.setWasmPath('./');
+    viewer.IFC.setWasmPath('/');
 
     // Set up axes and grid for better context
     viewer.axes.setAxes();

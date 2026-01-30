@@ -127,7 +127,12 @@ document.getElementById('close-panel').onclick = () => {
     infoPanel.classList.remove('visible');
 };
 
-// ... Error handling fix ...
+document.getElementById('reset-camera').onclick = () => {
+    if (viewer && currentModel) {
+        viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
+    }
+};
+
 function showError(msg) {
     loadingScreen.classList.add('hidden');
     errorScreen.classList.remove('hidden');
@@ -138,28 +143,6 @@ function showError(msg) {
 async function isolateElement(globalId) {
     if (!viewer || !currentModel) return;
 
-    // Find express ID from GlobalId
-    // Note: This often requires traversing properties or using a mapping
-    // For this demo, web-ifc-viewer usually handles props by expressID.
-    // We need to find the expressID corresponding to the GlobalId.
-
-    const manager = viewer.IFC.loader.ifcManager;
-
-    // Get all items content to find the one with matching GlobalId
-    // This can be slow for large models. In production, mapping should be done backend-side or optimized.
-    const allItems = await manager.getAllItemsOfType(currentModel.modelID, 0, false); // 0 = IfcRoot (roughly) or perform smarter search
-
-    // Optimization: In a real app, query properties by GlobalId directly if API supports it,
-    // or iterate via property sets. Here we simulate finding it.
-
-    // Since we don't have the exact map without parsing, we'll implement a search
-    // For MVP/Demo reliability without parsing large IFCs client side for 1 ID, 
-    // we might rely on the backend sending expressID, but GlobalId is standard.
-
-    // Let's assume for this MVP we simply show the whole model and try to find the ID
-    // Getting properties for all items is heavy. 
-    // We will assume for now we just show the model, and if possible highlight.
-
     // TODO: Implement exact GlobalId -> ExpressID lookup
     // For now, center model
     viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
@@ -168,31 +151,6 @@ async function isolateElement(globalId) {
     document.getElementById('element-guid').textContent = globalId;
     document.getElementById('info-panel').classList.add('visible');
 }
-
-function showError(msg) {
-    loadingScreen.classList.add('hidden');
-    errorScreen.classList.remove('hidden');
-    errorMessage.textContent = msg;
-}
-
-// Controls
-document.getElementById('reset-camera').onclick = () => {
-    if (viewer && currentModel) {
-        viewer.context.getIfcCamera().cameraControls.fitToBox(currentModel, true);
-    }
-};
-
-document.getElementById('toggle-fullscreen').onclick = () => {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
-};
-
-document.getElementById('close-panel').onclick = () => {
-    infoPanel.classList.remove('visible');
-};
 
 // Start
 init();

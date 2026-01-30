@@ -1,9 +1,19 @@
 import DatabaseManager from './db/database.js';
 import dotenv from 'dotenv';
+import { mkdirSync } from 'fs';
+import { dirname } from 'path';
 
 dotenv.config();
 
 const DATABASE_PATH = process.env.DATABASE_PATH || './data/qr-ifc-viewer.db';
+
+// Ensure data directory exists before creating database
+try {
+    mkdirSync(dirname(DATABASE_PATH), { recursive: true });
+} catch (err) {
+    // Directory already exists
+}
+
 const db = new DatabaseManager(DATABASE_PATH);
 
 console.log('🌱 Seeding database with sample data...\n');

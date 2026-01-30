@@ -29,7 +29,21 @@ const tokenService = new TokenService(db);
 
 // Middleware
 app.use(cors({
-    origin: CORS_ORIGIN,
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+
+        // Normalize origins (remove trailing slash) for comparison
+        const normalizedOrigin = origin.replace(/\/$/, '');
+        const normalizedAllowed = CORS_ORIGIN.replace(/\/$/, '');
+
+        if (normalizedOrigin === normalizedAllowed) {
+            return callback(null, true);
+        }
+
+        console.log(`🔒 CORS Blocked: ${origin} (Expected: ${CORS_ORIGIN})`);
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true
 }));
 app.use(express.json());

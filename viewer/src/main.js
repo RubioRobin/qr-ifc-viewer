@@ -60,7 +60,21 @@ async function init() {
         viewerContainer.classList.remove('hidden');
 
     } catch (error) {
-        showError(`${error.message} (API: ${API_BASE_URL})`);
+        // Collect diagnostics
+        let diag = `\nAPI: ${API_BASE_URL}`;
+        try {
+            const wasmResp = await fetch('/web-ifc.wasm', { method: 'HEAD' });
+            diag += `\nWASM: ${wasmResp.status}`;
+
+            if (data && data.ifcFileUrl) {
+                const modelResp = await fetch(data.ifcFileUrl, { method: 'HEAD' });
+                diag += `\nModel: ${modelResp.status} (${modelResp.headers.get('content-length')} bytes)`;
+            }
+        } catch (e) {
+            diag += `\nDiag failed: ${e.message}`;
+        }
+
+        showError(`${error.message}${diag}`);
     }
 }
 
@@ -84,6 +98,10 @@ async function initViewer() {
 }
 
 async function loadModel(url) {
+    // Check if file exists first
+    const check = await fetch(url, { method: 'HEAD' });
+    if (!check.ok) throw new Error(`Model bestand niet gevonden (Status ${check.status})`);
+
     currentModel = await viewer.IFC.loadIfcUrl(url);
     if (!currentModel) throw new Error('Model laden mislukt (Geen 3D data ontvangen).');
 
